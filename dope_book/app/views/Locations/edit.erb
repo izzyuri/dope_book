@@ -1,0 +1,14 @@
+<div class="container">
+
+    <form action="/locations/<%=@location.id %>" method="POST">
+        <input type="hidden" name="_method" id="hidden" value="PATCH">
+        <label for="Location">Location:</label>
+        <input type="text" name="address" id="address" value="<%=@location.address%>">
+        <input type="submit">
+    </form>
+
+    <form action="/locations/<%=@location.id %>" method="POST">
+        <input type="hidden" name="_method" id="hidden" value="DELETE">
+        <input type="submit" value="DELETE">
+    </form>
+</div>
