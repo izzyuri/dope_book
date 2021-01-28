@@ -1,23 +1,16 @@
 class UserController < ApplicationController
 
-    get '/users/:id' do
-        redirect_if_not_logged_in
-
-        @user = User.find_by(id: params[:id])
-        if !@user.nil? && @user == current_user
-            erb :'users/show'
-        else
-            redirect '/locations'
-        end
+    get '/users/edit' do
+        erb :'user/edit'
     end
 
-    patch '/users/:id' do
+    patch '/users/:id/edit' do
         user = User.find_by(id: params[:id])
         if !params[:gear].empty?
             user.gear = params[:gear]
         end
         user.save
-        redirect "/users/#{user.id}"
+        redirect "/welcome"
     end
 
     delete '/users/:id' do

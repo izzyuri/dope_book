@@ -1,8 +1,12 @@
 <div class="container">
-    <%@locations.each do |location|%> 
-        <div class="container">
-            <h1><%=location.address%></h1>
-            <a href="/locations/<%=location.id%>/edit"><button>edit</button></a>
-        </div>
+    <%if !@locations.empty?%>
+        <%@locations.each do |location|%> 
+            <div class="container">
+                <h1><%=location.address%></h1>
+                <a href="/locations/<%=location.id%>/edit"><button>edit</button></a>
+            </div>
+        <%end%>
+    <%else%>
+        <a href="/locations/new">Make new location.</a>
     <%end%>
 </div>

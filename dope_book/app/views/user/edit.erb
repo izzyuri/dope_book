@@ -1,0 +1,8 @@
+<div>
+    <form action="/users/<%=current_user.id%>/edit" method="POST">
+        <input type="hidden" name="_method" id="hidden" value="PATCH">
+        <label for="gear">Gear: </label>
+        <input type="text" name="gear" id="gear" value="<%=current_user.gear%>">
+        <input type="submit">
+    </form>
+</div>

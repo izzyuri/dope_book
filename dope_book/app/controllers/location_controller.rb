@@ -2,7 +2,7 @@ class LocationController < ApplicationController
 
     get '/locations' do
         redirect_if_not_logged_in
-        @locations = Location.all
+        @locations = current_user.locations
         erb :"Locations/index"
     end
 
@@ -15,24 +15,34 @@ class LocationController < ApplicationController
         redirect_if_not_logged_in
         location = Location.new(address: params[:address])
         location.save
+        current_user.locations << location
+        current_user.save 
         redirect "/locations/#{location.id}"
     end
 
     get '/locations/:id/edit' do
         redirect_if_not_logged_in
-        @location = Location.find(params[:id])
-        erb :'Locations/edit'
+        @location = Location.find_by(id: params[:id])
+        if current_user.locations.include?(@location)
+            erb :'Locations/edit'
+        else
+            redirect '/welcome'
+        end
     end
 
     get '/locations/:id' do
         redirect_if_not_logged_in
-        @location = Location.find(params[:id])
-        erb :'Locations/show'
+        @location = Location.find_by(id: params[:id])
+        if current_user.locations.include?(@location)
+            erb :'Locations/show'
+        else
+            redirect '/welcome'
+        end
     end
 
     patch '/locations/:id' do
         redirect_if_not_logged_in
-        @location = Location.find(params[:id])
+        @location = Location.find_by(id: params[:id])
         @location.address = params[:address]
         @location.save
         redirect "/locations/#{@location.id}"
@@ -40,7 +50,8 @@ class LocationController < ApplicationController
 
     delete '/locations/:id' do
         redirect_if_not_logged_in
-        @location = location.find(params[:id])
+        @location = Location.find_by(id: params[:id])
+        @location.destroy
         redirect "/locations"
     end
 end
